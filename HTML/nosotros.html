@@ -1,0 +1,265 @@
+
+    
+</body>
+</html>
+<html lang="es-US">
+    <head>
+        <title>Mi BootCamp</title>
+        <!--script src="scripts/index.js"></script-->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    
+	</head>
+    <div class="">
+
+        
+    </div>
+    <body>
+        <div class="">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#">Empresa ABC</a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/nosotros">nosotros</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="">Catalogo</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/contactanos" aria-disabled="true">Contactos</a>
+                      </li>
+               
+                    </ul>
+                    <form class="d-flex" role="search">
+                      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                  </div>
+                </div>
+              </nav>
+        </div>
+       
+        
+        <div id="form" style="display: none;">
+            <label >Id</label><br>
+            <input type="text" id="id" size="10" disabled><br>
+            <label >Pelicula</label><br>
+            <input type="text" id="name" size="10"><br>
+            <label >Año</label><br>
+            <input type="text" id="year" size="10"><br><br>
+            <button name="button" onclick="agregar_dato()">Agregar</button>
+            <br><br>
+        </div>
+        <div id="nuevo">
+            <button name="button" onclick="mostrar_form()">Nuevo</button>
+            <br><br>
+        </div>
+        <div id="t_tabla">
+            
+        </div>
+	</body>
+
+    <script>
+          
+          let datos = '[' +
+                            '{' +
+                            '    "id": 56431, ' +
+                            '    "name": "El Padrino", ' +
+                            '    "year": 1972 ' +
+                            '},' +
+                            '{' + 
+                            '    "id": 7553, ' +
+                            '    "name": "El Padrino 2", ' +
+                            '    "year": 1974 ' +
+                            '},' +
+                            '{ ' +
+                            '    "id": 19563, ' +
+                            '    "name": "El Padrino III", ' +
+                            '    "year": 1990 ' +
+                            '} ' +
+                        ']';
+
+          modelo1();
+          crear_id();
+
+          function modelo1(){
+            var js_datos = JSON.parse(datos);
+            var t_cont = '';
+
+            let tabla_datos = '<table id="d_tabla" border="1">' +
+                                '<tr>' +
+                                    '<th>Id</th>' +
+                                    '<th>Pelicula</th>' +
+                                    '<th>Año</th>' +
+                                    '<th colspan=2>Acción</th>' +
+                                '</tr>';
+            
+            for(var x=0; x<js_datos.length; x++){
+                t_cont = t_cont + 
+                    '<tr>' +
+                        '<td>' + js_datos[x].id + '</td>' +
+                        '<td>' + js_datos[x].name + '</td>' +
+                        '<td>' + js_datos[x].year + '</td>' +
+                        '<td>' + '<button name="button" onclick="eliminar_dato(\''+ js_datos[x].id + '\',\'' + js_datos[x].name + '\',\'' + js_datos[x].year + '\')">Eliminar</button>' + '</td>' +
+                        '<td>' + '<button name="button" onclick="editar_dato(\''+ js_datos[x].id + '\',\'' + js_datos[x].name + '\',\'' + js_datos[x].year + '\')">Editar</button>' + '</td>' +
+                    '</tr>';
+            }
+
+            tabla_datos = tabla_datos + t_cont + '</table>';
+            var my_tabla = document.getElementById("t_tabla");
+            my_tabla.innerHTML = tabla_datos;
+
+          }
+
+          function mostrar_form(){
+              let nuevo = document.getElementById("form");
+              let boton = document.getElementById("nuevo");
+              if (nuevo.style.display === "none"){
+                  nuevo.style.display = "block";
+                  boton.style.display = "none";
+              }   
+              else {
+                  nuevo.style.display = "none";
+                  boton.style.display = "block";
+              }
+                    
+                
+          }
+
+          function limpiar_form(){
+            document.getElementById("id").value = "";
+            document.getElementById("name").value = "";
+            document.getElementById("year").value = "";
+          }
+
+          function crear_id(){
+            return document.getElementById("id").value = Math.floor(Math.random() * 99999);
+          }
+
+          function agregar_dato(){
+            let my_tabla = document.getElementById("t_tabla");
+            let tabla_datos = my_tabla.innerHTML;
+            let exist = tabla_datos.search(document.getElementById("id").value);
+            let new_datos = '{  ' +
+                                '    "id": ' + document.getElementById("id").value + ',' +
+                                '    "name": "' + document.getElementById("name").value + '", ' +
+                                '    "year": ' + + document.getElementById("year").value + 
+                            ' }';
+            if(exist == -1){
+                new_datos = ',' + new_datos + ']';
+                let datos_replace = datos.replace(']', new_datos);
+                datos = datos_replace;
+                modelo1();
+            }
+            else{
+                var fila;
+                var id_dato;
+                var name_dato;
+                var year_dato;
+                var longitud = document.getElementsByTagName("tr").length;
+                for(var i=1; i<longitud; i++){
+                    fila = document.getElementsByTagName("tr")[i].innerHTML;
+                    exist = fila.search(document.getElementById("id").value);
+                    if(exist != -1){
+                        let update_datos = 
+                            '<td>' + document.getElementById("id").value + '</td>' +
+                            '<td>' + document.getElementById("name").value + '</td>' +
+                            '<td>' + document.getElementById("year").value + '</td>' +
+                            '<td>' + '<button name="button" onclick="eliminar_dato(\''+ document.getElementById("id").value + '\',\'' + document.getElementById("name").value + '\',\'' + document.getElementById("year").value + '\')">Eliminar</button>' + '</td>' +
+                            '<td>' + '<button name="button" onclick="editar_dato(\''+ document.getElementById("id").value + '\',\'' + document.getElementById("name").value + '\',\'' + document.getElementById("year").value + '\')">Editar</button>' + '</td>';
+                            document.getElementsByTagName("tr")[i].innerHTML = update_datos;
+                    }
+                }
+            }
+            
+            limpiar_form();
+            crear_id();
+            mostrar_form();
+          }
+
+          function eliminar_dato(a,b,c){
+            let delete_datos = 
+                    '<tr>' +
+                        '<td>' + a + '</td>' +
+                        '<td>' + b + '</td>' +
+                        '<td>' + c + '</td>' +
+                        '<td>' + '<button name="button" onclick="eliminar_dato(\''+ a + '\',\'' + b + '\',\'' + c + '\')">Eliminar</button>' + '</td>' +
+                        '<td>' + '<button name="button" onclick="editar_dato(\''+ a + '\',\'' + b + '\',\'' + c + '\')">Editar</button>' + '</td>';
+                    '</tr>';
+            let my_tabla = document.getElementById("t_tabla");
+            let tabla_datos = my_tabla.innerHTML;
+            let datos_replace = tabla_datos.replace(delete_datos, '');
+            my_tabla.innerHTML = datos_replace;
+
+          }
+
+          function editar_dato(a,b,c){
+            document.getElementById("id").value = a;
+            document.getElementById("name").value = b;
+            document.getElementById("year").value = c;
+            mostrar_form();
+          }
+         
+          function modelo2(){
+
+                var js_datos = JSON.parse(datos);
+                
+                for(x of js_datos){
+                    console.log(x.name + ', ' + x.year);
+                }
+
+                for(var i=0; i<js_datos.length; i++){
+                    console.log(js_datos[i].name + ', ' + js_datos[i].year);
+                }
+
+                //var body = document.getElementsByTagName("body")[0];
+                var t_tabla = document.getElementById("t_tabla");
+                var tabla   = document.createElement("table");
+                var tblBody = document.createElement("tbody");
+
+                // Crea las celdas
+                for (var i = 0; i < js_datos.length; i++) {
+                    // Crea las hileras de la tabla
+                    var hilera = document.createElement("tr");
+
+                    for (var j = 0; j < 2; j++) {
+                        // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+                        // texto sea el contenido de <td>, ubica el elemento <td> al final
+                        // de la hilera de la tabla
+                        var celda = document.createElement("td");
+                        
+                        if((j % 2) != 0)
+                            var textoCelda = document.createTextNode(js_datos[i].year);
+                        else
+                            var textoCelda = document.createTextNode(js_datos[i].name);
+                        
+                        //var textoCelda = document.createTextNode("celda en la hilera "+i+", columna "+j);
+                        celda.appendChild(textoCelda);
+                        hilera.appendChild(celda);
+                    }
+                    // agrega la hilera al final de la tabla (al final del elemento tblbody)
+                    tblBody.appendChild(hilera);
+                }
+
+                // posiciona el <tbody> debajo del elemento <table>
+                tabla.appendChild(tblBody);
+                // appends <table> into <body>
+                t_tabla.appendChild(tabla);
+                // modifica el atributo "border" de la tabla y lo fija a "2";
+                tabla.setAttribute("border", "2");
+        }
+        
+        
+        
+    </script>
+     
+	<footer>
+        
+    </footer>
+</html>
